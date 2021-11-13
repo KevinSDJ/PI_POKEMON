@@ -32,7 +32,6 @@ export default function CarDespl(){
     //let Img=require('../images/Bulbasaur.gif');
     return(
         <Div>
-        <img src="https://github.com/KevinSDJ/PI_POKEMON_HENRY/blob/main/client/public/images/Abomasnow.gif" alt="Abomasnow" />
         {pokms.length>1?pokms.map(e=> <Card 
         key={e.id}
         id={e.id}
