@@ -1,8 +1,7 @@
-import {GET_ALL,FILTER,ORDER_DESC,ORDER_ASC,ORDER_DEFAULT,RE_CHARGE,TYPE_FILTER} from './../actions/actions'
+import {GET_ALL,ORDER_DESC,ORDER_ASC,ORDER_DEFAULT,RE_CHARGE,BY_TYPES,BY_USER,BY_EXISTENT} from './../actions/actions'
 
 
 const initState={
-    filterType:"",
     pokemonsInUse:[],
     pokemons:[],
     user:{},
@@ -55,16 +54,16 @@ export default function root(state=initState,action){
             };
         case RE_CHARGE:
             return {...state,
-                pokemonsInUse:action.payload
-            }
-
-        case TYPE_FILTER:
-            return {...state,
-                filterType:action.payload
-            }
-
-        case FILTER:
+                pokemonsInUse:state.pokemons
+            }; 
+        case BY_TYPES:
             return {...state,pokemonsInUse:action.payload};
+        
+        case BY_USER:
+            return {...state,pokemonsInUse:action.payload};
+
+        case BY_EXISTENT:
+            return {...state,pokemonsInUse:state.pokemons};
 
         case ORDER_DESC:
             return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,"desc")};

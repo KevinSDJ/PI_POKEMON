@@ -1,19 +1,36 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {FormSearch} from '../Pages/styled_components/searchStyled';
-import {ImgCont} from '../Pages/styled_components/containers';
 import icon from '../Pages/media/Isearch.png';
-import {BtnPerz} from '../Pages/styled_components/button';
+import styled from 'styled-components';
+import { BtnPerz } from '../Pages/styled_components/button';
 
 
+let atr=["backgroundcolor:grey;","opacity: 1%;"]
 
-let atrBtn=["background:white;","border:none;","padding:0;","margin:0;","border-bottom-right-radius:2em;","border-top-right-radius:2em;"]
-
+let Inp= styled.input`
+  width: 100px;
+  box-sizing: border-box;
+  border: 1px transparent;
+  border-radius: 4em;
+  font-size: 18px;
+  background-color: white;
+  background-image: url(${icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding: 5px 0 5px 30px;
+  outline: none;
+  transition: width 0.4s ease-in-out;
+  &:focus{
+      width:20em;
+  }
+  
+`;
 
 export default function Search(){
-    const [state,setState]=useState({});
+    const [state,setState]=useState({search:""});
     const [resp,setResp]=useState("");
-    const [type,setType]=useState({type:"name"})
+   
     function onChange(e){
         setState(prev=>{
             let s={...prev,[e.target.name]:e.target.value}
@@ -22,24 +39,24 @@ export default function Search(){
     }
     function onSub(e){
         e.preventDefault();
-            if(state.name&&!state.id){
+        console.log(state)
+            if(state.search){
                axios.get(`http://localhost:3001/home/pokemons?name=${state.name}`)
                 .then(res=> setResp(res.data))
                 console.log(resp)
-                setTimeout(()=>{setState({name:"",id:""});document.getElementById("search").value=""},(2000))
+                setTimeout(()=>{setState({search:""});document.getElementById("search").value=""},(2000))
             }
+        
     }
    
     return (
         <FormSearch onSubmit={onSub} autoComplete="off">
-         <input id="search" type="search" name={type.type} placeholder="search by name" required onChange={onChange} />
-         <BtnPerz type="submit" atributes={atrBtn}>
-             <ImgCont img={icon} padding={"1em"} margin={"0"} bgSize={"cover"}/>
-         </BtnPerz>
-         <select name="select" onChange={(e)=>setType({type:e.target.value})} hidden>
-            <option value="name" defaultValue>name</option>
-            <option value="id" >id</option>
-         </select>
+         <Inp id="search" type="search" name="search" placeholder="search" required onChange={onChange} onKeyPress={(e)=>{
+             if(e.key==="Enter"){
+                 return document.getElementById("submit").click()
+             }
+         }} value={state.search}/>
+         <BtnPerz id="submit" type="submit" atributes={atr}></BtnPerz>
         </FormSearch>
     )
 }

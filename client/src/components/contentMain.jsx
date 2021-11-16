@@ -18,7 +18,7 @@ export function MainCont() {
     const dispatch= useDispatch()
     useEffect(()=>{
         if(pokms.length>1){
-           dispatch(reCharge(pokms))
+           dispatch(reCharge())
         }
     },[pokms,dispatch])
     return (

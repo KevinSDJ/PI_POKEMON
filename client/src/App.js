@@ -8,7 +8,6 @@ import {Main} from './Pages/styled_components/mainStyled';
 import {MainCont} from './components/contentMain';
 import {connect} from 'react-redux';
 import { useEffect} from 'react';
-import {carga} from './utils'; 
 import { getAllPokemon } from './actions/actions';
 
 
@@ -24,10 +23,7 @@ const Ap= styled.div`
 export function App(props) {
    const dispatch= props.dispatch
    useEffect(()=>{
-      function f(){
-         carga(dispatch,getAllPokemon)
-      }
-      f()
+     dispatch(getAllPokemon())
    },[dispatch])
    
   

@@ -8,10 +8,7 @@ let atr=["background-color:black;","color:white;","display:flex;","align-items:c
 export function Order(props){
     const [status,setStatus]=useState(null);
     const  dispatch= props.dispatch
-    if(props.pokemonsInUse?.length>1){
-        console.log("esta cargado")
-        document.getElementById("selOrd").hidden=false
-    }
+    
 
     useEffect(()=>{
         if(status==="default"){
@@ -30,7 +27,7 @@ export function Order(props){
             Order By
             <select id="selOrd" name="select" onChange={(e)=>{
                 setStatus(e.target.value)
-                }} hidden>
+                }}>
                 <option defaultValue value="default">default</option>
                 <option value="desc">desc</option>
                 <option value="asc">asc</option>
