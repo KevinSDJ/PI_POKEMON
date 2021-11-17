@@ -38,17 +38,19 @@ export function App(props) {
        <Route exact path="/login">
               <Login/>
        </Route>
-       <Route  exact path='/home'>
+       <Route path='/home'>
              <Nav/>
              <Main>
-                <Route path='/home'>
+                 <Route exact strict path='/home'>
                      <MainCont/>    
                 </Route>
-                <Route path="/home/about">
-                    <div>
+                <Route exact path="/home/about">
+                    <div style={{"padding":"200px","backgroundColor":"blue"}}>
                        sobre que ? no se
                     </div>
                 </Route>
+                <Route exact path="/home/:id" render={({match})=> <div>{match.params.id}</div>}/>
+                <Route exact path="/home/create" render={()=><div>Aqui iria el formulario de creacion</div>}/>
              </Main>
              
        </Route>

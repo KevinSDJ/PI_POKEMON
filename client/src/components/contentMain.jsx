@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Div } from '../Pages/styled_components/containers';
 import Filter from "../components/filter";
 import Order from "../components/order";
@@ -15,6 +15,7 @@ let atr2 = ["padding:5px;", "display:flex;", "justify-content: space-around;"]
 
 export function MainCont() {
     let pokms= useSelector(state=>state.pokemons)
+    const [filSt,setflSt]= useState(null)
     const dispatch= useDispatch()
     useEffect(()=>{
         if(pokms.length>1){
@@ -24,8 +25,8 @@ export function MainCont() {
     return (
         <Div atributes={atr}>
             <Div atributes={atr2}>
-                <Filter />
-                <Order />
+                <Filter setSt={setflSt}/>
+                <Order filtStatus={filSt}/>
             </Div>
             <CarDespl/>
         </Div>

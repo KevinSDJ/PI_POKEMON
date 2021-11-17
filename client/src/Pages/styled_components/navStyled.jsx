@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Search from "../../components/searchBar";
 import { Nav1 } from './headStyled';
 import { Div, ImgCont } from './containers';
@@ -14,9 +15,10 @@ export default function Nav() {
             <Nav1>
                 <Div atributes={atri} >
                     <ImgCont top={"-10px"} left={"-30px"} padding={"2em"} img={logo} position={"absolute"} />
-                    <H1 color={"#FFFFFF"} padding={"0.2em"}>
+                    <Link to="/home"><H1 color={"#FFFFFF"} padding={"0.2em"}>
                         Pokemon App
                     </H1>
+                    </Link>
                     <Search />
                     <Links />
                     <Div atributes={atri2} />

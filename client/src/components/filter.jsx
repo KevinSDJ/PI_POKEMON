@@ -53,6 +53,7 @@ export function Filter(props) {
         }
         if(e.target.id==="types"){
             setTypes(e.target.value)
+            props.setSt(e.target.value)
         }
     }
     function check(e){

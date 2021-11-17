@@ -17,8 +17,8 @@ export function getAllPokemon() {
     }
 }
 // -- precarga de pokemons in use
-export function reCharge(payload){
-    return {type:RE_CHARGE,payload:payload}
+export function reCharge(){
+    return {type:RE_CHARGE}
 }
 //filtro segun el tipo
 export function filTypes(payload,type) {

@@ -1,19 +1,23 @@
 import React, { useState,useEffect} from "react";
 import { Div } from "../Pages/styled_components/containers";
 import {connect} from 'react-redux';
-import {ordDef,ordDesc,ordAsc} from '../actions/actions'
+import {ordDef,ordDesc,ordAsc,filTypes} from '../actions/actions'
 let atr=["background-color:black;","color:white;","display:flex;","align-items:center;"]
 
 
 export function Order(props){
     const [status,setStatus]=useState(null);
     const  dispatch= props.dispatch
+    let filtStatus=props.filtStatus
     
 
     useEffect(()=>{
         if(status==="default"){
-            dispatch(ordDef())
-            
+            if(filtStatus!==null||filtStatus!== "default"){
+                dispatch(filTypes(props.pokemons,filtStatus))
+            }else{
+                dispatch(ordDef())
+            }
         }
         if(status==="desc"){
             dispatch(ordDesc())
@@ -21,7 +25,7 @@ export function Order(props){
         if(status==="asc"){
             dispatch(ordAsc())
         }
-    },[dispatch,status])
+    },[dispatch,status,filtStatus,props.pokemons])
     return(
         <Div atributes={atr}>
             Order By
