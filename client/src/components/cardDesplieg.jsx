@@ -13,7 +13,7 @@ let Div=styled.div`
 
 export default function CarDespl(){
     const [currentPage,setCurrP]= React.useState(1)
-    const pokeXpage=9
+    const pokeXpage=12
     let pokms= useSelector(state=>state.pokemonsInUse)
     let pkUse=pokms
 

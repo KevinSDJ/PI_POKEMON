@@ -6,6 +6,7 @@ export const ORDER_DEFAULT = "ORDER_DEFAULT";
 export const RE_CHARGE="RE_CHARGE";
 export const BY_USER="BY_USER";
 export const BY_EXISTENT="BY_EXISTENT";
+export const GET_BY_ID="GET_BY_ID";
 const axios = require("axios");
 
 
@@ -68,4 +69,9 @@ export function ordDef(payload){
     return {type:ORDER_DEFAULT,payload:payload}
 }
 //------------------------------------------------
-
+export function getById(id){
+    return function (dispatch){
+        return axios.get(`http://localhost:3001/home/pokemons/${id}`)
+        .then(r=> dispatch({type:GET_BY_ID,payload:r.data}))
+    }
+}

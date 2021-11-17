@@ -1,8 +1,9 @@
-import {GET_ALL,ORDER_DESC,ORDER_ASC,ORDER_DEFAULT,RE_CHARGE,BY_TYPES,BY_USER,BY_EXISTENT} from './../actions/actions'
+import {GET_ALL,ORDER_DESC,ORDER_ASC,ORDER_DEFAULT,RE_CHARGE,BY_TYPES,BY_USER,BY_EXISTENT,GET_BY_ID} from './../actions/actions'
 
 
 const initState={
     pokemonsInUse:[],
+    pokeDetails:{},
     pokemons:[],
     user:{},
 }
@@ -72,6 +73,8 @@ export default function root(state=initState,action){
             return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,"asc")};
         case ORDER_DEFAULT:
             return {...state,pokemonsInUse:state.pokemons}
+        case GET_BY_ID:
+            return {...state,pokeDetails:action.payload}
 
         default:
             return state

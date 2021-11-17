@@ -1,7 +1,7 @@
 import React from "react";
 import {Div} from '../Pages/styled_components/containers'
 import {Link} from 'react-router-dom';
-let links=[{title:"New Pokemon",route:"/home/create"},{title:"About",route:"/home/about"}]
+let links=[{title:"New Pokemon",route:"/home/create/"},{title:"About",route:"/home/about"}]
 let efect=`
    a{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

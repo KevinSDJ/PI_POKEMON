@@ -9,6 +9,7 @@ import {MainCont} from './components/contentMain';
 import {connect} from 'react-redux';
 import { useEffect} from 'react';
 import { getAllPokemon } from './actions/actions';
+import Details from './Pages/details/pokeDetails';
 
 
 const Ap= styled.div`
@@ -49,8 +50,10 @@ export function App(props) {
                        sobre que ? no se
                     </div>
                 </Route>
-                <Route exact path="/home/:id" render={({match})=> <div>{match.params.id}</div>}/>
-                <Route exact path="/home/create" render={()=><div>Aqui iria el formulario de creacion</div>}/>
+                <Route exact path="/home/pokemons/:id" render={({match})=><Details id={match.params.id}/>}/>
+                <Route exact path="/home/create">
+                     <div>Aqui iria el formulario de creacion</div>
+                </Route>
              </Main>
              
        </Route>
