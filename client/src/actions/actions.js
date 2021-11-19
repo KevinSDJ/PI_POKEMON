@@ -7,21 +7,28 @@ export const RE_CHARGE="RE_CHARGE";
 export const BY_USER="BY_USER";
 export const BY_EXISTENT="BY_EXISTENT";
 export const GET_BY_ID="GET_BY_ID";
+export const SET_USER="SET_USER";
+export const CLEAR_USER="CLEAR_USER";
 const axios = require("axios");
 
 
 
-
+// traer todos los pokemones 
 export function getAllPokemon() {
     return function (dispatch) {
         return axios.get('http://localhost:3001/home/pokemons').then((resp) => { return dispatch({ type: GET_ALL, payload: resp.data }) })
     }
 }
-// -- precarga de pokemons in use
+//-----------------------------
+
+
+// precarga de pokemons in use
 export function reCharge(){
     return {type:RE_CHARGE}
 }
-//filtro segun el tipo
+//-----------------------------
+
+// filtro segun el tipo
 export function filTypes(payload,type) {
     let fil=[]
     if(type==="default"){
@@ -39,6 +46,9 @@ export function filTypes(payload,type) {
     }
     return { type:BY_TYPES, payload:fil}
 }
+//-----------------------------
+
+
 // filtro segun usuario
 export function filUs(payload,id){
     let fil=[]
@@ -51,14 +61,16 @@ export function filUs(payload,id){
     })
     return {type:BY_USER,payload:fil}
 }
-//___________________
-//filtro segun existentes
+//-----------------------------
+
+
+// filtro segun existentes
 export function filExist(){
     return {type:BY_EXISTENT}
 }
 //-----------------------------
 
-// filtros de ordenamientos
+// filtros de ordenamientos con merger sort
 export function ordDesc() {
     return { type:ORDER_DESC}
 }
@@ -69,9 +81,23 @@ export function ordDef(payload){
     return {type:ORDER_DEFAULT,payload:payload}
 }
 //------------------------------------------------
+
+
+// peticion según id
 export function getById(id){
     return function (dispatch){
         return axios.get(`http://localhost:3001/home/pokemons/${id}`)
         .then(r=> dispatch({type:GET_BY_ID,payload:r.data}))
     }
+}
+
+// traer datos de usuario en insertar sesion
+export function setUser(setResponse){
+   return function(dispatch){
+    let axiosConfig = {
+        withCredentials: true,
+      }
+       return axios.get('http://localhost:3001/home',axiosConfig)
+       .then(r=>r.data.hasOwnProperty("type")?setResponse({type:r.data.type,body:r.data.body}):dispatch({type:SET_USER,payload:r.data}))
+   }
 }

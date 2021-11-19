@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import {Div,ImgCont} from '../styled_components/containers';
@@ -12,44 +12,61 @@ let atr=["background-color:#2F4858;","position:relative;","height:100vh;"]
 let atr2=["position: relative;","margin:0 auto;","padding:14em 0 0 0;"]
 
 export default function Login() {
-    const [resp, setResp] = useState({ rout: null });
+    const [respuesta,setResp] = useState({type:null,body:null});
     const [data, setData] = useState({
         email: "",
         password: ""
     })
+    useEffect(()=>{
+      axios.get('http://localhost:3001/login')
+      .then(r=>{
+        let {type,body}= r.data
+        if(type&&body){
+          setResp({type:type,body:body})
+        }
+      })
+    },[])
+
     function onChange(e) {
         setData(prev => {
             let st = { ...prev, [e.target.name]: e.target.value }
             return st
         })
     }
+    let axiosConfig = {
+      withCredentials: true,
+    }
     function onSub(e){
         e.preventDefault()
-        axios.post('http://localhost:3001/login',data)
-          .then(resp=> setResp({rout:resp.data.redirect}))
-        setTimeout(()=>{setData({email:"",password:""})},(3000))
+        axios.post('http://localhost:3001/login',data,axiosConfig)
+          .then(resp=>{
+            let {type,body}=resp.data
+            setResp({type:type,body:body})
+          })
+        setTimeout(()=>{setData({email:"",password:""})},(2000))
       }
-    if (resp?.rout) {
+    if (respuesta.type==="redirect"||respuesta.type==="continue") {
+        console.log(respuesta)
         return (
-            <Redirect path={`${resp.rout}`} />
+          <Redirect to={`${respuesta.body}`}/>
         )
-    } else {
+    }else{
         return (
             <Div atributes={atr}>
           <ImgCont top={"20px"} left={"30px"} padding={"2em"} img={logo} position={"absolute"}/>
           <Div atributes={atr2}>
             <Form onSubmit={onSub} gap={"1em 0"} position={"relative"} autoComplete="off" >
                 <ImgCont padding={"8em"} img={Pokemon} position={"absolute"} top={"-240px"} left={"5em"}/>
-                <label for="email">
+                <label htmlFor="email">
                    Email
                     <input type="email" name="email" placeholder="email" required  onChange={onChange} value={data.email} />
                 </label>
-                <label for="password">
+                <label htmlFor="password">
                    Password
                    <input type="password" name="password" placeholder="password" required  onChange={onChange} value={data.password} />
                 </label>
                 <div><BtnYellow type="submit">login</BtnYellow><BtnCancel type="button" onClick={()=>{
-                  setResp({rout:"/"})
+                  setResp({type:"redirect",body:"/"})
                 }}>cancel</BtnCancel></div> 
             </Form>
           </Div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import logo from '../media/Pokeball.png';
@@ -16,7 +16,18 @@ export default function Register(){
     password:"",
     image:""
   })
-  const [red,setRed]= useState({rout:null})
+  const [response,setResp]= useState({type:null,body:null})
+   
+  useEffect(()=>{
+    axios.get('http://localhost:3001/register')
+    .then(r=>{
+      const {type,body}= r.data
+      if(type&&body){
+        setResp({type:r.data.type,body:r.data.body})
+      }
+    })
+  },[])
+
 
   function onChange(e){
     setState(prev=>{
@@ -27,14 +38,17 @@ export default function Register(){
   function onSub(e){
     e.preventDefault()
     axios.post('http://localhost:3001/register',status)
-      .then(resp=> setRed({rout:resp.data.redirect}))
+      .then(resp=> setResp({type:resp.data.type,body:resp.data.body}))
     setTimeout(()=>{setState({username:"",email:"",password:""})},(3000))
   }
-
-
-  if(red.rout){
+  
+  if(response?.type==="ok"){
     return(
-      <Redirect  to={`${red.rout}`}/>
+      <Redirect  to={`${response.body}`}/>
+    )
+  }else if(response?.type==="redirect"){
+    return(
+      <Redirect  to={`${response.body}`}/>
     )
   }else{
     return (
@@ -43,25 +57,23 @@ export default function Register(){
           <Div atributes={atr2}>
             <Form onSubmit={onSub} gap={"1em 0"} position={"relative"} autoComplete="off" >
                 <ImgCont padding={"8em"} img={Pokemon} position={"absolute"} top={"-195px"} left={"5em"}/>
-                <label for="username">
+                <label htmlFor="username">
                    Username
                    <input  type="text" name="username" placeholder="username" required onChange={onChange} value={status.username} />
                 </label>
-                <label for="email">
+                <label htmlFor="email">
                    Email
                     <input type="email" name="email" placeholder="email" required  onChange={onChange} value={status.email} />
                 </label>
-                <label for="password">
+                <label htmlFor="password">
                    Password
                    <input type="password" name="password" placeholder="password" required  onChange={onChange} value={status.password} />
                 </label>
-                <label for="image">
+                <label htmlFor="image">
                    Phote
                    <input type="text" name="image" placeholder="url_image" required  onChange={onChange} value={status.image}/>
                 </label>
-                <div><BtnYellow type="submit">create account</BtnYellow><BtnCancel type="button" onClick={()=>{
-                  setRed({rout:"/"})
-                }}>cancel</BtnCancel></div> 
+                <div><BtnYellow type="submit">create account</BtnYellow><BtnCancel type="button" onClick={()=>setResp({type:"redirect",body:"/"})}>cancel</BtnCancel></div> 
             </Form>
           </Div>
         </Div>

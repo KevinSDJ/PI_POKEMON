@@ -1,4 +1,14 @@
-import {GET_ALL,ORDER_DESC,ORDER_ASC,ORDER_DEFAULT,RE_CHARGE,BY_TYPES,BY_USER,BY_EXISTENT,GET_BY_ID} from './../actions/actions'
+import {
+    GET_ALL,
+    ORDER_DESC,
+    ORDER_ASC,
+    ORDER_DEFAULT,
+    RE_CHARGE,
+    BY_TYPES,
+    BY_USER,
+    BY_EXISTENT,
+    GET_BY_ID,
+    SET_USER} from './../actions/actions'
 
 
 const initState={
@@ -75,6 +85,8 @@ export default function root(state=initState,action){
             return {...state,pokemonsInUse:state.pokemons}
         case GET_BY_ID:
             return {...state,pokeDetails:action.payload}
+        case SET_USER:
+            return {...state,user:action.payload}
 
         default:
             return state
