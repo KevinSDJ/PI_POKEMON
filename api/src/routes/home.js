@@ -3,7 +3,8 @@ const router=express.Router();
 const {getHome}=require('./controllers/home.js');
 const {isAuthorized}= require('../middlewares/verifyUser');
 
-router.get('/home',isAuthorized,getHome)
+router.get('/home',getHome)
+
 
 
 

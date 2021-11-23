@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import {Div,ImgCont} from '../styled_components/containers';
@@ -17,15 +17,8 @@ export default function Login() {
         email: "",
         password: ""
     })
-    useEffect(()=>{
-      axios.get('http://localhost:3001/login')
-      .then(r=>{
-        let {type,body}= r.data
-        if(type&&body){
-          setResp({type:type,body:body})
-        }
-      })
-    },[])
+   
+   
 
     function onChange(e) {
         setData(prev => {
@@ -33,23 +26,24 @@ export default function Login() {
             return st
         })
     }
-    let axiosConfig = {
-      withCredentials: true,
-    }
+   
     function onSub(e){
+      (async function(){
         e.preventDefault()
-        axios.post('http://localhost:3001/login',data,axiosConfig)
-          .then(resp=>{
-            let {type,body}=resp.data
-            setResp({type:type,body:body})
-          })
-        setTimeout(()=>{setData({email:"",password:""})},(2000))
+        let axiosConfig = {
+          withCredentials: true,
+        }
+        let send=await axios.post('http://localhost:3001/login',data,axiosConfig)   
+        setData({email:"",password:""})
+        setResp(send.data)
+      })()
       }
-    if (respuesta.type==="redirect"||respuesta.type==="continue") {
-        console.log(respuesta)
-        return (
-          <Redirect to={`${respuesta.body}`}/>
-        )
+    if (respuesta.type) {
+        if(respuesta.type==="redirect"){
+          return(
+            <Redirect to={`${respuesta.body}`}/> 
+          )
+        }  
     }else{
         return (
             <Div atributes={atr}>

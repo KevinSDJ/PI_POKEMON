@@ -1,12 +1,12 @@
-import {Route} from 'react-router-dom';
+import {Route,} from 'react-router-dom';
 import Login from './Pages/login/login';
 import Register from './Pages/register/register';
 import Welcome from './Pages/present/presentation';
 import styled from 'styled-components';
 import Nav from './Pages/styled_components/navStyled';
-import {Main} from './Pages/styled_components/mainStyled';
-import {MainCont} from './components/contentMain';
-import {connect} from 'react-redux';
+import {Main} from './components/main.js'
+import MainCont from './components/contentMain.jsx';
+import {useDispatch} from 'react-redux';
 import { useEffect} from 'react';
 import { getAllPokemon } from './actions/actions';
 import Details from './Pages/details/pokeDetails';
@@ -22,8 +22,8 @@ const Ap= styled.div`
 
 
 
-export function App(props) {
-   const dispatch= props.dispatch
+export default function App() {
+   const dispatch= useDispatch()
    useEffect(()=>{
      dispatch(getAllPokemon())
    },[dispatch])
@@ -41,10 +41,10 @@ export function App(props) {
               <Login/>
        </Route>
        <Route path='/home'>
-             <Nav/>
              <Main>
-                 <Route exact strict path='/home'>
-                     <MainCont/>    
+                <Nav/>
+                <Route exact strict path='/home'>
+                   <MainCont/>
                 </Route>
                 <Route exact path="/home/about">
                     <div style={{"padding":"200px","backgroundColor":"blue"}}>
@@ -66,10 +66,4 @@ export function App(props) {
 
 
 
-function mapStateToProps(state) {
-   return {
-     pokemons: state.pokemons,
-   };
- }
 
-export default connect(mapStateToProps)(App);

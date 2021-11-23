@@ -40,8 +40,8 @@ Users.hasMany(Pokemon);
 Pokemon.belongsTo(Users)
 
 
-Pokemon.belongsToMany(Type, { through: 'PokeTypes' })
-Type.belongsToMany(Pokemon, { through: 'PokeTypes' })
+Pokemon.belongsToMany(Type, { through: 'poke_types' })
+Type.belongsToMany(Pokemon, { through: 'poke_types' })
 
 
 

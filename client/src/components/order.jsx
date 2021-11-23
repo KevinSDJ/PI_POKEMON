@@ -1,31 +1,29 @@
 import React, { useState,useEffect} from "react";
 import { Div } from "../Pages/styled_components/containers";
-import {connect} from 'react-redux';
-import {ordDef,ordDesc,ordAsc,filTypes} from '../actions/actions'
+import {useDispatch} from 'react-redux';
+import {ordDef,ordDesc,ordAsc,ordTypePresen} from '../actions/actions'
 let atr=["background-color:black;","color:white;","display:flex;","align-items:center;"]
 
 
-export function Order(props){
+export default function Order(props){
     const [status,setStatus]=useState(null);
-    const  dispatch= props.dispatch
-    let filtStatus=props.filtStatus
+    let dispatch = useDispatch()
     
 
     useEffect(()=>{
-        if(status==="default"){
-            if(filtStatus!==null||filtStatus!== "default"){
-                dispatch(filTypes(props.pokemons,filtStatus))
-            }else{
-                dispatch(ordDef())
-            }
+        if(status==="default"&&props.filStatus==="default"){
+            dispatch(ordDef())
+        }
+        if(status==="default"&&props.filStatus!=="default"){
+            dispatch(ordTypePresen(props.filStatus))
         }
         if(status==="desc"){
-            dispatch(ordDesc())
+            dispatch(ordDesc("desc"))
         }
         if(status==="asc"){
-            dispatch(ordAsc())
+            dispatch(ordAsc("asc"))
         }
-    },[dispatch,status,filtStatus,props.pokemons])
+    },[dispatch,status,props.filStatus])
     return(
         <Div atributes={atr}>
             Order By
@@ -40,11 +38,3 @@ export function Order(props){
     )
 }
 
-function mapStateToProps(state) {
-    return {
-      pokemons: state.pokemons,
-      pokemonsInUse:state.pokemonsInUse
-    };
-  }
-
-export default connect(mapStateToProps)(Order);

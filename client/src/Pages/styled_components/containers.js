@@ -27,4 +27,5 @@ const Nav=styled.nav`
    border:1px solid cyan;
 `;
 
+
 export {ImgCont,Div,Nav};

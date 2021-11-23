@@ -18,8 +18,9 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
-const { conn,Users,Type} = require('./src/db.js');
+const { conn,Users,Type,Pokemon,Op,poke_types} = require('./src/db.js');
 const axios= require('axios');
+
 
 async function inject(){
   let list= await axios.get('https://pokeapi.co/api/v2/type').then(data=> data.data)
@@ -30,9 +31,11 @@ async function inject(){
 
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ alter:true }).then(async () => {
+  let pokes= await Pokemon.findAll({include:Type})
+  
+ 
   server.listen(3001, () => {
-    inject()
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
 });

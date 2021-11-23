@@ -8,15 +8,66 @@ import {
     BY_USER,
     BY_EXISTENT,
     GET_BY_ID,
-    SET_USER} from './../actions/actions'
+    SET_USER,
+    FILT_DEF,
+    ORD_TYPE_PRESENT
+    } from './../actions/actions'
 
 
 const initState={
     pokemonsInUse:[],
     pokeDetails:{},
     pokemons:[],
-    user:{},
+    user:[],
 }
+
+
+
+export default function root(state=initState,action){
+    switch(action.type){
+        case GET_ALL:
+            return {...state,
+                pokemons:action.payload
+            };
+        case RE_CHARGE:
+            return {...state,
+                pokemonsInUse:state.pokemons
+            }; 
+        case BY_TYPES:
+            console.log(action.payload)
+            return {...state,pokemonsInUse:state.pokemons.filter(e=>e.types.includes(action.payload))};
+                
+        case FILT_DEF:
+            return {...state,pokemonsInUse:state.pokemons}
+        case BY_USER:
+            return {...state,pokemonsInUse:state.pokemons.filter(e=>e.hasOwnProperty("userId")&&e.userId===state.user[0].id)};
+
+        case BY_EXISTENT:
+            return {...state,pokemonsInUse:state.pokemons};
+
+        case ORDER_DESC:
+            return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,action.payload)};
+
+        case ORDER_ASC:
+            return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,action.payload)};
+        case ORDER_DEFAULT:
+            return {...state,pokemonsInUse:state.pokemons}
+        case ORD_TYPE_PRESENT:
+            return {...state,pokemonsInUse:state.pokemons.filter(e=>e.types.includes(action.payload))}
+
+        case GET_BY_ID:
+            return {...state,pokeDetails:action.payload}
+        case SET_USER:
+            return {...state,user:action.payload}
+        default:
+            return state
+    }
+}
+
+
+
+//------ order function
+
 function mergeSort(list, order) {
     if (list.length <= 1) {
         return list;
@@ -57,38 +108,3 @@ function merge(izquierda, derecha, order) {
 }
 
 
-export default function root(state=initState,action){
-    switch(action.type){
-        case GET_ALL:
-            return {...state,
-                pokemons:state.pokemons.concat(action.payload)
-            };
-        case RE_CHARGE:
-            return {...state,
-                pokemonsInUse:state.pokemons
-            }; 
-        case BY_TYPES:
-            return {...state,pokemonsInUse:action.payload};
-        
-        case BY_USER:
-            return {...state,pokemonsInUse:action.payload};
-
-        case BY_EXISTENT:
-            return {...state,pokemonsInUse:state.pokemons};
-
-        case ORDER_DESC:
-            return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,"desc")};
-
-        case ORDER_ASC:
-            return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,"asc")};
-        case ORDER_DEFAULT:
-            return {...state,pokemonsInUse:state.pokemons}
-        case GET_BY_ID:
-            return {...state,pokeDetails:action.payload}
-        case SET_USER:
-            return {...state,user:action.payload}
-
-        default:
-            return state
-    }
-}

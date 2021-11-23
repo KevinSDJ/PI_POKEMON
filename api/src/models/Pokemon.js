@@ -25,9 +25,9 @@ module.exports = (sequelize) => {
       type:DataTypes.INTEGER,
       allowNull:false
     },
-    sprite:{
-      type: DataTypes.STRING(100),
-      allowNull:true
+    sprites:{
+      type: DataTypes.TEXT,
+      allowNull:false
     }
     ,
     strength:{
@@ -45,10 +45,6 @@ module.exports = (sequelize) => {
     weight:{
       type:DataTypes.INTEGER,
       allowNull:false
-    },
-    type:{
-      type:DataTypes.STRING(100),
-      allowNull:true
     }
    
   },{timestamps:false});

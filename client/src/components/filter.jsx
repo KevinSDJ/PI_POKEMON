@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Div } from "../Pages/styled_components/containers";
-import { connect } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import styled from "styled-components";
-import {filTypes,filUs,filExist} from '../actions/actions';
+import {filTypes,filUs,filExist,filtDef} from '../actions/actions';
 
-let atr = ["background-color:blue;", "color:white;", "display:flex;", "align-items:center;"]
+
 let Select=styled.select`
 display: inline-block;
 border: 1px transparent;
@@ -17,26 +16,37 @@ option{
 outline: none;
 padding: 5px;
 `
-let id=2
-export function Filter(props) {
+let Cont= styled.div`
+   background-color: blue;
+   color: white;
+   display: flex;
+   align-items: center;
+`
+
+export default function Filter(props) {
     const [types,setTypes] = useState(null)
     const [checkUser,setCheckUs]= useState(false)
     const [checkEx,setCheckEx]= useState(false)
-    const dispatch = props.dispatch
+    const dispatch = useDispatch()
+  
 
     useEffect(() => {
-        if (types!== null) {
-            dispatch(filTypes(props.pokemons, types))
+        if (types!== null&&types!=="default") {
+             dispatch(filTypes(types))
+        }
+        if(types==="default"){
+             dispatch(filtDef())
         }
         if (checkUser&&!checkEx){
-            dispatch(filUs(props.pokemons,id))
+             dispatch(filUs())
         }
         if(checkEx&&!checkUser){
             dispatch(filExist())
         }
-    }, [dispatch,types, props.pokemons,checkEx,checkUser])
+    }, [dispatch,types,checkEx,checkUser])
 
     function onCh(e){
+        console.log(e.target.value)
         if(e.target.id==="byUser"){
             if(checkUser===true){
                 setCheckUs(!checkUser)
@@ -52,20 +62,19 @@ export function Filter(props) {
             setCheckUs(false)
         }
         if(e.target.id==="types"){
-            setTypes(e.target.value)
-            props.setSt(e.target.value)
+             setTypes(e.target.value)
+             props.setFilst(e.target.value)
         }
     }
-    function check(e){
-        console.log(checkUser+" "+ checkEx)
-    }
+    
+    
     return (
-        <Div atributes={atr}>
+        <Cont>
             filter
-            <form onChange={check}>
-                <label for="types">
+            <form onChange={onCh}>
+                <label htmlFor="types">
                     By types:
-                    <Select id="types" name="types" onChange={onCh} autoFocus>
+                    <Select id="types" name="types">
                        <option value="default">default</option>
                        <option value="normal">normal</option>
                        <option value="fighting">fighting</option>
@@ -89,27 +98,19 @@ export function Filter(props) {
 
                     </Select>
                 </label>
-                <label for="byUser">
+                <label htmlFor="byUser">
                     By User:
                     <input id="byUser" name="byUser-existing" type="checkbox" checked={checkUser} onChange={onCh}  />
                 </label>
-                <label for="existing" >
+                <label htmlFor="existing" >
                     Existing:
                     <input id="existing" name="byUser-existing" type="checkbox" checked={checkEx} onChange={onCh}/>
                 </label>
             </form>
 
 
-        </Div>
+        </Cont>
     )
 }
 
 
-function mapStateToProps(state) {
-    return {
-        pokemons: state.pokemons,
-        pokemonsInUse: state.pokemonsInUse
-    };
-}
-
-export default connect(mapStateToProps)(Filter);

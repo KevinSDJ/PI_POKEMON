@@ -1,5 +1,9 @@
+
+
 import styled from "styled-components";
-import bgImg from '../media/backgroundMain.png';
+import bgImg from '../Pages/media/backgroundMain.png';
+
+
 
 
 
@@ -10,11 +14,15 @@ const Main= styled.div`
     background-position: center;
     box-sizing:border-box;
     background-attachment: fixed;
-    height: 100vh;
-    padding-top: 4em;
+    height: auto;
+    min-height: 100vh;
+    padding-top: 5rem;
     border:5px solid yellow;
+    
     
 `;
 
 
-export {Main};
+export {Main}
+
+

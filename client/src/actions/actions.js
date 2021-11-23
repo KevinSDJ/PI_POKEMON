@@ -9,7 +9,12 @@ export const BY_EXISTENT="BY_EXISTENT";
 export const GET_BY_ID="GET_BY_ID";
 export const SET_USER="SET_USER";
 export const CLEAR_USER="CLEAR_USER";
+export const FILT_DEF="FILT_DEF";
+export const ORD_TYPE_PRESENT="ORD_TYPE_PRESENT";
 const axios = require("axios");
+
+
+
 
 
 
@@ -29,37 +34,19 @@ export function reCharge(){
 //-----------------------------
 
 // filtro segun el tipo
-export function filTypes(payload,type) {
-    let fil=[]
-    if(type==="default"){
-        fil=fil.concat(payload)
-    }else{
-        payload.forEach(e => {
-        if(Array.isArray(e.types)){
-            for(var el in e.types){
-                if(e.types[el].type.name===type){
-                    fil.push(e)
-                }
-            }
-        }
-       });
-    }
-    return { type:BY_TYPES, payload:fil}
+export function filTypes(types) {
+    console.log(types)
+    return { type:BY_TYPES, payload:types}
 }
 //-----------------------------
-
+// filtro si es default
+export function filtDef(){
+    return {type:FILT_DEF}
+}
 
 // filtro segun usuario
-export function filUs(payload,id){
-    let fil=[]
-    payload.forEach(e=>{
-        if(e.hasOwnProperty("userId")){
-            if(e.userId===id){
-                fil.push(e)
-            }
-        }
-    })
-    return {type:BY_USER,payload:fil}
+export function filUs(){
+    return {type:BY_USER}
 }
 //-----------------------------
 
@@ -71,14 +58,17 @@ export function filExist(){
 //-----------------------------
 
 // filtros de ordenamientos con merger sort
-export function ordDesc() {
-    return { type:ORDER_DESC}
+export function ordDesc(order) {
+    return { type:ORDER_DESC,payload:order}
 }
-export function ordAsc() {
-    return { type:ORDER_ASC}
+export function ordTypePresen(type){
+    return {type:ORD_TYPE_PRESENT,payload:type}
 }
-export function ordDef(payload){
-    return {type:ORDER_DEFAULT,payload:payload}
+export function ordAsc(order) {
+    return { type:ORDER_ASC,payload:order}
+}
+export function ordDef(){
+    return {type:ORDER_DEFAULT}
 }
 //------------------------------------------------
 

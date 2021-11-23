@@ -1,5 +1,4 @@
 const express = require('express');
-const compression= require('compression');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
@@ -16,7 +15,6 @@ server.name = 'API';
 
 server.use(express.urlencoded({ extended: true, limit: '50mb' }));
 server.use(express.json({ limit: '50mb' }));
-server.use(compression())
 server.use(cookieParser());
 server.use(morgan('dev'));
 

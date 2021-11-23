@@ -11,33 +11,34 @@ function enter(req, res) {
 }
 
 
-function loginGet(req, res) {
-    res.send(`
-    <h1>Iniciar sesión</h1>
-    <form method='post' action='/login'>
-      <input type='email' name='email' placeholder='Email' required />
-      <input type='password' name='password' placeholder='Contraseña' required />
-      <input type='submit' />
-    </form>
-    <a href='/register'>Registrarse</a>
-  `)
+async function loginGet(req, res) {
+    const { uid } = req.session
+    if(uid){
+        let u = Users.findAll({where:{id:uid}})
+        if(u){
+            return res.json([{type:"redirect",body:"/home"},u])
+        }
+    }
+    res.status(200)
 }
 
-async function loginpost(req, res) {
+function loginpost(req, res) {
     const { email, password } = req.body
     Users.findAll().then(resp => {
         if (!email || !password) {
-            return res.status(400).send('Bad request,check parameters')
+            return res.status(400).json({type:"redirect",body:"/login"})
         }
         if (resp.length === 0) {
-        return res.status(404).json({redirect:"/register"})
+            res.status(404)
+            return res.json({type:"redirect",body:"/register"})
     } else {
-        let user =resp.find(u => u.email === email)
+        let user =resp.find(u => u.email=== email)
         if (user) {
             req.session.uid= user.id
-            return res.status(301).json({redirect:"/home"})
+            return res.json({type:"redirect",body:"/home"})
         } else {
-            return res.status(404).json({redirect:"/register"})
+            res.status(404)
+            return res.json({type:"redirect",body:"/register"})
         }
     }
     })
@@ -48,20 +49,16 @@ async function loginpost(req, res) {
 
 }
 
-function registerGet(req, res) {
+async function registerGet(req, res) {
     const { uid } = req.session
-    if (!uid) {
-        return res.send(`
-    <h1>Register</h1>
-    <form method="post" action='/register'>
-         <input name="username" type='text' placeholder="username"/>
-         <input name="email" type="email" placeholder="email" />
-         <input name="password" type="password" placeholder="password"/>
-         <input type='submit' />    
-    </form>`)
-    } else {
-        return res.redirect('/login')
+    if(uid){
+       let u=await Users.findOne({where:{id:uid}})
+       if(u){
+           return res.status(302).json({type:"redirect",body:"/login"})
+       }
+       res.clearCookie('uID')
     }
+    res.status(100)
 
 }
 
@@ -71,11 +68,10 @@ async function registerPost(req, res) {
     const users = await Users.findAll()
     let user = users.find(u => u.email.toLowerCase() === email.toLowerCase())
     if (user) {
-        return res.json({redirect:"/login"})
+        return res.json({type:"redirect",body:"/login"})
     } else {
         await Users.create({ username, email, password,image})
-        res.status(201)
-        return res.json({redirect:"/login"})
+        return res.json({type:"redirect",body:"/login"})
     }
 
 

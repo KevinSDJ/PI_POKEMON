@@ -1,17 +1,14 @@
-function getHome(req,res){
-    res.send(`
-     <h1>Wecome at Home</h1>
-     <div>
-        <h4>User</h4>
-        <img src="#">
-        <form method="post" action="/logeout">
-             <input type="submit" value="logeout"/>
-        </form>
-     </div>
-     
+const { Users} = require('../../db.js');
 
 
-    `)
+async function getHome(req,res){
+    const { uid } = req.session
+    if(uid){
+        let u= await Users.findAll({where:{id:uid}})
+        return res.json(u)
+    }
+    res.status(400).json({type:"redirect",body:"/login"})
+    
 }
 
 
