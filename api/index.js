@@ -24,17 +24,15 @@ const axios= require('axios');
 
 async function inject(){
   let list= await axios.get('https://pokeapi.co/api/v2/type').then(data=> data.data)
-  list.results.map(e=>  Type.create({id:e.id,name:e.name}))
+  list.results.map(e=> Type.create({id:e.id,name:e.name}))
   return 
 
 }
 
 
 // Syncing all the models at once.
-conn.sync({ alter:true }).then(async () => {
-  let pokes= await Pokemon.findAll({include:Type})
-  
- 
+conn.sync({force:true}).then(() => {
+  inject()
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });

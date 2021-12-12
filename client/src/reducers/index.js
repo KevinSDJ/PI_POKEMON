@@ -2,19 +2,18 @@ import {
     GET_ALL,
     ORDER_DESC,
     ORDER_ASC,
-    ORDER_DEFAULT,
     RE_CHARGE,
     BY_TYPES,
     BY_USER,
     BY_EXISTENT,
     GET_BY_ID,
     SET_USER,
-    FILT_DEF,
-    ORD_TYPE_PRESENT
+    GET_TYPES
     } from './../actions/actions'
 
 
 const initState={
+    types:[],
     pokemonsInUse:[],
     pokeDetails:{},
     pokemons:[],
@@ -34,26 +33,17 @@ export default function root(state=initState,action){
                 pokemonsInUse:state.pokemons
             }; 
         case BY_TYPES:
-            console.log(action.payload)
             return {...state,pokemonsInUse:state.pokemons.filter(e=>e.types.includes(action.payload))};
-                
-        case FILT_DEF:
-            return {...state,pokemonsInUse:state.pokemons}
         case BY_USER:
-            return {...state,pokemonsInUse:state.pokemons.filter(e=>e.hasOwnProperty("userId")&&e.userId===state.user[0].id)};
-
+            return {...state,pokemonsInUse:state.pokemons.filter(e=>e.hasOwnProperty("userId"))};
         case BY_EXISTENT:
-            return {...state,pokemonsInUse:state.pokemons};
-
+            return {...state,pokemonsInUse:state.pokemons.filter(e=> !e.hasOwnProperty("userId"))};
         case ORDER_DESC:
             return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,action.payload)};
-
         case ORDER_ASC:
             return {...state,pokemonsInUse:mergeSort(state.pokemonsInUse,action.payload)};
-        case ORDER_DEFAULT:
-            return {...state,pokemonsInUse:state.pokemons}
-        case ORD_TYPE_PRESENT:
-            return {...state,pokemonsInUse:state.pokemons.filter(e=>e.types.includes(action.payload))}
+        case GET_TYPES:
+            return {...state,types:action.payload}
 
         case GET_BY_ID:
             return {...state,pokeDetails:action.payload}

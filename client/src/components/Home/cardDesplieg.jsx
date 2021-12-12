@@ -22,7 +22,7 @@ let Div = styled.div`
 export default function CarDespl() {
   const [currentPage, setCurrP] = React.useState(1)
 
-  const pokeXpage = 10
+  const pokeXpage = 9
   let pokms = useSelector(state => state.pokemonsInUse)
   let pkUse = pokms
 
@@ -32,9 +32,9 @@ export default function CarDespl() {
   }
   
 
-  let indexOfLastTodo = currentPage * pokeXpage;
-  let indexOfFirstTodo = indexOfLastTodo - pokeXpage;
-  let currentPokes = pkUse.length > 1 ? pkUse.slice(indexOfFirstTodo, indexOfLastTodo) : null;
+  let indexOfLast = currentPage * pokeXpage;
+  let indexOfFirst = indexOfLast - pokeXpage;
+  let currentPokes = pkUse.length > 1 ? pkUse.slice(indexOfFirst, indexOfLast) : null;
   const pokes_render = currentPokes ? currentPokes.map(e => <Card
     key={e.id}
     id={e.id}

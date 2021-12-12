@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Search from "../../components/searchBar";
+import Search from "../../components/Home/searchBar";
 import { Nav1 } from './headStyled';
 import { Div, ImgCont } from './containers';
-import logo from '../media/Pokeball.png'
-import Links from "../../components/links";
-import { Avatar } from "../../components/avatar";
+import logo from '../../assets/Pokeball.png'
+import Links from "../../components/Home/links";
+import { Avatar } from "../../components/Home/avatar";
 import styled from "styled-components";
 let H1= styled.h1`
     color: #fff;

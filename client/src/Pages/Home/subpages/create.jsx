@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FormNwPoke } from "./component/formcreate";
+import { FormNwPoke } from "./formcreate";
 import axios from 'axios';
-import {useDispatch} from 'react-redux'
-import {getAllPokemon,reCharge} from '../../actions/actions';
-let hpokemongif = require('../media/HuevoPokemon.gif')
+import {useDispatch, useSelector} from 'react-redux'
+import {getAllPokemon,reCharge} from '../../../actions/actions';
+let hpokemongif = require('../../../assets/HuevoPokemon.gif')
 
 export default function CreatePage() {
     const [data, setData] = useState({
@@ -17,21 +17,32 @@ export default function CreatePage() {
         sprites: "",
         types: []
     })
-    const dispatch= useDispatch()
+    
     const [types, setTypes] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [resp,setResp]=useState(null)
+    const dispatch= useDispatch()
+    const tps= useSelector(state=>state.types)
 
     useEffect(() => {
-        axios.get('http://localhost:3001/home/types')
+        if(types===null){
+            axios.get('http://localhost:3001/home/types')
             .then(r => {
                 r.data = r.data.slice(0, 18).map(e => {
-                    return { id: e.id, name: e.name, icon: require(`../media/iconsTypes/${e.name}.png`) }
+                    return { id: e.id, name: e.name, icon: require(`../../../assets/iconsTypes/${e.name}.png`) }
                 })
                 setTypes(r.data)
                 
             })
-    }, [setTypes])
+        }
+        if(isLoading){
+            setTimeout(() => {
+            setIsLoading(!isLoading)
+           }, (2000))
+        }
+        
+        
+    },[setTypes,types,isLoading])
 
     const checkData = (e) => {
         setData((prev) => {
@@ -70,13 +81,11 @@ export default function CreatePage() {
         .then(r=>{
             setResp(r.data)
             dispatch(getAllPokemon())
-            setTimeout(()=>{
-                dispatch(reCharge())
-            },(2000))
+            return "ok"
+            
         })
-        
-        
-        setTimeout(()=>{
+        .then(e=>{
+            dispatch(reCharge())
             setData({
             name: "",
             health: 0,
@@ -88,52 +97,20 @@ export default function CreatePage() {
             sprite: "",
             types:[]
         })
-        d= {
-            handleClick,
-            types:types,
-            checkData,
-            onSub,
-            name: "",
-            health: "",
-            defense: "",
-            strength: "",
-            speed:"",
-            height:"",
-            weight: "",
-            sprites: ""
-    
-        }
-        },(1000))
-        
+        })
     }
-    let d = {
-        handleClick,
-        types: types,
-        checkData,
-        onSub,
-        name: data.name,
-        health: data.health,
-        defense: data.defense,
-        strength: data.strength,
-        speed: data.speed,
-        height: data.height,
-        weight: data.weight,
-        sprites: data.sprites
-
-    }
+       
+   
     if (isLoading) {
-        setTimeout(() => {
-            setIsLoading(!isLoading)
-        }, (2000))
+      
         return (
             <img src={hpokemongif.default} alt="huevo_gif" />
         )
     } else {
         return (
-            <FormNwPoke d={d}>
+            <FormNwPoke data={data} types={tps} onSub={onSub} handleClick={handleClick} checkData={checkData}>
 
             </FormNwPoke>
         )
     }
-
 }

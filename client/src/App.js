@@ -4,13 +4,13 @@ import Register from './Pages/register/register';
 import Welcome from './Pages/present/presentation';
 import styled from 'styled-components';
 import Nav from './Pages/styled_components/navStyled';
-import {Main} from './components/main.js'
-import MainCont from './components/contentMain.jsx';
+import {Home} from './Pages/Home/home.js'
+import MainCont from './components/Home/contentMain';
 import {useDispatch} from 'react-redux';
 import { useEffect} from 'react';
-import { getAllPokemon } from './actions/actions';
-import Details from './Pages/details/pokeDetails';
-import CreatePage from './Pages/create/create';
+import { getAllPokemon,getAlltypes,getById} from './actions/actions';
+import Details from './Pages/Home/subpages/pokeDetails';
+import CreatePage from './Pages/Home/subpages/create';
 
 
 const Ap= styled.div`
@@ -26,6 +26,8 @@ export default function App() {
    const dispatch= useDispatch()
    useEffect(()=>{
      dispatch(getAllPokemon())
+     dispatch(getAlltypes())
+     
    },[dispatch])
    
   
@@ -41,7 +43,7 @@ export default function App() {
               <Login/>
        </Route>
        <Route path='/home'>
-             <Main>
+             <Home>
                 <Nav/>
                 <Route exact strict path='/home'>
                    <MainCont/>
@@ -51,11 +53,11 @@ export default function App() {
                        sobre que ? no se
                     </div>
                 </Route>
-                <Route exact path="/home/pokemons/:id" render={({match})=><Details id={match.params.id}/>}/>
+                <Route exact path="/home/pokemons/:id" render={({match})=>dispatch(getById(match.params.id))&&<Details />}/>
                 <Route exact path="/home/create">
                      <CreatePage/>
                 </Route>
-             </Main>
+             </Home>
              
        </Route>
     </Ap>

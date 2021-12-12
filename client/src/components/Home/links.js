@@ -1,5 +1,5 @@
 import React from "react";
-import {Div} from '../Pages/styled_components/containers'
+import {Div} from '../../Pages/styled_components/containers'
 import {Link} from 'react-router-dom';
 let links=[{title:"New Pokemon",route:"/home/create/"},{title:"About",route:"/home/about"}]
 let efect=`

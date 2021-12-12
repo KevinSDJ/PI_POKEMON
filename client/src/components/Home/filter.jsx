@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {useDispatch} from 'react-redux';
 import styled from "styled-components";
-import {filTypes,filUs,filExist,filtDef} from '../actions/actions';
+import {filTypes,filUs,filExist, reCharge} from '../../actions/actions';
 
 
 let Select=styled.select`
@@ -31,17 +31,17 @@ export default function Filter(props) {
   
 
     useEffect(() => {
-        if (types!== null&&types!=="default") {
+        if (types==="default") {
+             dispatch(reCharge())
+        }
+        if(types&&types!=="default"){
              dispatch(filTypes(types))
         }
-        if(types==="default"){
-             dispatch(filtDef())
-        }
-        if (checkUser&&!checkEx){
-             dispatch(filUs())
-        }
-        if(checkEx&&!checkUser){
+        if(checkEx){
             dispatch(filExist())
+        }
+        if(checkUser){
+            dispatch(filUs())
         }
     }, [dispatch,types,checkEx,checkUser])
 

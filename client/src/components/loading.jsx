@@ -66,7 +66,7 @@ const Lod = styled.div`
 `
 
 export const Loading = () => {
-    let l = require('../Pages/media/8TEbqnaec.gif')
+    let l = require('../assets/8TEbqnaec.gif')
     return (
         <Container>
             <Loader>

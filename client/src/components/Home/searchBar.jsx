@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {FormSearch} from '../Pages/styled_components/searchStyled';
-import icon from '../Pages/media/Isearch.png';
+import {FormSearch} from '../../Pages/styled_components/searchStyled';
+import icon from '../../assets/Isearch.png';
 import styled from 'styled-components';
-import { BtnPerz } from '../Pages/styled_components/button';
+import { BtnPerz } from '../../Pages/styled_components/button';
 
 
 let atr=["backgroundcolor:grey;","opacity: 1%;"]

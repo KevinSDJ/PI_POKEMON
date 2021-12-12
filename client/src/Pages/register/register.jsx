@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
-import logo from '../media/Pokeball.png';
-import Pokemon from '../media/PokemonReg.png';
+import logo from '../../assets/Pokeball.png';
+import Pokemon from '../../assets/PokemonReg.png';
 import {ImgCont,Div} from '../styled_components/containers';
 import {Form}  from '../styled_components/form';
 import {BtnCancel, BtnYellow} from '../styled_components/button';

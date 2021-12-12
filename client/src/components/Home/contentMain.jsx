@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Filter from "../components/filter";
-import Order from "../components/order";
+import Filter from "./filter.jsx";
+import Order from "./order";
 import { useDispatch, useSelector } from "react-redux";
-import { reCharge, setUser } from '../actions/actions'
+import {  reCharge, setUser } from '../../actions/actions'
 import CarDespl from "./cardDesplieg";
 import { Redirect } from "react-router";
-import { Loading } from "./loading";
 import styled from "styled-components";
 
 
@@ -29,36 +28,19 @@ let atr2 = ["padding:5px;", "display:flex;", "justify-content: space-around;"]
 
 
 export default function MainCont() {
-    let pokms = useSelector(state => state.pokemonsInUse)
+    
     let us = useSelector(state => state.user)
     const [response, setResponse] = useState({ type: null, body: null })
-    const [isLoading, setIsloading] = useState(true)
     const [filStatus,setFilst]=useState(null)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        
+        dispatch(reCharge())
         if (us?.length < 1) {
             dispatch(setUser(setResponse))
-        }
-        if (pokms.length < 1) {
-            dispatch(reCharge())
-
-        }
-        setTimeout(() => {
-            setIsloading(false)
-        }, (2000))
-        clearTimeout()
-        
-    },[pokms, dispatch, us])
+        }        
+    },[dispatch, us])
      
-
-
-    if (isLoading) {
-        return (
-            <Loading />
-        )
-    } else {
         if (response.type) {
             return (
                 <Redirect to={response.body} />
@@ -74,9 +56,6 @@ export default function MainCont() {
                 </CMain>
             )
         }
-    }
-
-
 }
 
 

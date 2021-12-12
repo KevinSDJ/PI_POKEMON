@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 
-let x_def=require('../Pages/media/userPerfil.png')
+let x_def=require('../../assets/userPerfil.png')
 
 let Container=styled.div`
    background-image: url(${p=>p.image?p.image:x_def.default});

@@ -1,8 +1,8 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import logo from '../media/Pokeball.png';
-import logoHenry from '../media/logoHenry 1.png';
-import bgImg from '../media/Daco.png';
+import logo from '../../assets/Pokeball.png';
+import logoHenry from '../../assets/logoHenry 1.png';
+import bgImg from '../../assets/Daco.png';
 import {BtnYellow} from '../styled_components/button';
 import {Div,ImgCont} from '../styled_components/containers';
 import {H1,P} from '../styled_components/text';

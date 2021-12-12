@@ -85,7 +85,7 @@ function getTypes(req, res) {
 async function createPK(req, res) {
     const { name, health, defense, sprites, strength, speed, height, weight, types } = req.body
     const { uid } = req.session
-    console.log(sprites)
+    
     try {
         if (name && health && defense && strength && speed && height && weight && types) {
             let user = await Users.findOne({ where: { id: uid } })

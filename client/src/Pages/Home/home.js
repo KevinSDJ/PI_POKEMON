@@ -1,13 +1,13 @@
 
 
 import styled from "styled-components";
-import bgImg from '../Pages/media/backgroundMain.png';
+import bgImg from '../../assets/backgroundMain.png';
 
 
 
 
 
-const Main= styled.div`
+const Home= styled.div`
     background:radial-gradient(transparent,rgba(87, 117, 144,.4)),url(${bgImg});
     background-size: cover;
     background-repeat: no-repeat;
@@ -23,6 +23,6 @@ const Main= styled.div`
 `;
 
 
-export {Main}
+export {Home}
 
 

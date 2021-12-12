@@ -11,7 +11,9 @@ export const SET_USER="SET_USER";
 export const CLEAR_USER="CLEAR_USER";
 export const FILT_DEF="FILT_DEF";
 export const ORD_TYPE_PRESENT="ORD_TYPE_PRESENT";
+export const GET_TYPES="GET_TYPES"
 const axios = require("axios");
+
 
 
 
@@ -35,13 +37,7 @@ export function reCharge(){
 
 // filtro segun el tipo
 export function filTypes(types) {
-    console.log(types)
     return { type:BY_TYPES, payload:types}
-}
-//-----------------------------
-// filtro si es default
-export function filtDef(){
-    return {type:FILT_DEF}
 }
 
 // filtro segun usuario
@@ -58,18 +54,27 @@ export function filExist(){
 //-----------------------------
 
 // filtros de ordenamientos con merger sort
-export function ordDesc(order) {
-    return { type:ORDER_DESC,payload:order}
+export function orderDesc(){
+    return {type:ORDER_DESC,payload:"desc"}
 }
-export function ordTypePresen(type){
-    return {type:ORD_TYPE_PRESENT,payload:type}
+export function orderAsc(){
+    return {type:ORDER_ASC,payload:"asc"}
 }
-export function ordAsc(order) {
-    return { type:ORDER_ASC,payload:order}
+
+
+// llamada a la api
+export function getAlltypes(){
+    return function (dispatch){
+        axios.get('http://localhost:3001/home/types')
+        .then(r=>{
+            let resp=[]
+            r.data.slice(0,18).map(e=>resp.push({id:e.id,name:e.name,icon:require(`../assets/iconsTypes/${e.name}.png`).default}))
+            return dispatch({type:GET_TYPES,payload:resp})
+        })
+    }
 }
-export function ordDef(){
-    return {type:ORDER_DEFAULT}
-}
+
+
 //------------------------------------------------
 
 

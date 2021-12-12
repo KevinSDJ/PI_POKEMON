@@ -4,8 +4,9 @@ import { Redirect } from 'react-router-dom';
 import {Div,ImgCont} from '../styled_components/containers';
 import {Form} from '../styled_components/form';
 import {BtnYellow,BtnCancel} from '../styled_components/button';
-import logo from '../media/Pokeball.png';
-import Pokemon from '../media/PokemonLog.png';
+import logo from '../../assets/Pokeball.png';
+import Pokemon from '../../assets/PokemonLog.png';
+import {Loading} from '../../components/loading';
 
 
 let atr=["background-color:#2F4858;","position:relative;","height:100vh;"]
@@ -13,11 +14,12 @@ let atr2=["position: relative;","margin:0 auto;","padding:14em 0 0 0;"]
 
 export default function Login() {
     const [respuesta,setResp] = useState({type:null,body:null});
+    const [isLoading,setIsLoading]= useState(true)
     const [data, setData] = useState({
         email: "",
         password: ""
     })
-   
+    
    
 
     function onChange(e) {
@@ -38,12 +40,15 @@ export default function Login() {
         setResp(send.data)
       })()
       }
+    
     if (respuesta.type) {
-        if(respuesta.type==="redirect"){
-          return(
-            <Redirect to={`${respuesta.body}`}/> 
-          )
-        }  
+        if(isLoading){
+          setTimeout(()=>{
+            setIsLoading(!isLoading)},(2000))
+          return(<Loading/>)
+        }else{
+          return (<Redirect to={`${respuesta.body}`}/>)
+        } 
     }else{
         return (
             <Div atributes={atr}>
