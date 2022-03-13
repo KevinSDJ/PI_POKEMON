@@ -32,17 +32,15 @@ server.use(session(
     resave:false,
     saveUninitialized:false,
     cookie:{
-      maxAge: 1000 * 60 * 60 * 2 
+      expires:new Date(Date.now()+10600000*12*5).toLocaleString(),
+      maxAge: new Date(Date.now()+10600000*12*5)
     }
+    
   }
 ));
 
-/*server.use((req,res,next)=>{
-  console.log(req.session)
-  next()
-})*/
 
-server.use('/',routes);
+server.use('/api',routes);
 
 
 // Error catching endware.

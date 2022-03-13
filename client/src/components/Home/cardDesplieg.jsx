@@ -24,7 +24,8 @@ export default function CarDespl() {
 
   const pokeXpage = 9
   let pokms = useSelector(state => state.pokemonsInUse)
-  let pkUse = pokms
+  let search=useSelector(state=> state.searchs)
+  
 
   function handleClick(e) {
     e.preventDefault()
@@ -34,7 +35,7 @@ export default function CarDespl() {
 
   let indexOfLast = currentPage * pokeXpage;
   let indexOfFirst = indexOfLast - pokeXpage;
-  let currentPokes = pkUse.length > 1 ? pkUse.slice(indexOfFirst, indexOfLast) : null;
+  let currentPokes = search?.length<1&& pokms.length > 1 ? pokms.slice(indexOfFirst, indexOfLast) :search?.slice(indexOfFirst,indexOfLast);
   const pokes_render = currentPokes ? currentPokes.map(e => <Card
     key={e.id}
     id={e.id}
@@ -42,7 +43,7 @@ export default function CarDespl() {
     sprite={e.sprites}
     types={e.types}
 
-  />) : "wait"
+  />) : "Not found"
   let pageNumbers =[]
   function btnClick(e) {
     if (e.target.id === "next" && currentPage < pageNumbers.length) {
@@ -52,7 +53,7 @@ export default function CarDespl() {
       setCurrP(currentPage - 1)
     }
   }
-  for (var i = 1; i <= Math.ceil(pokms?.length / pokeXpage); i++) {
+  for (var i = 1; i <= Math.ceil(!search.length?pokms?.length / pokeXpage:search.length/pokeXpage); i++) {
     pageNumbers.push(i);
   }
 

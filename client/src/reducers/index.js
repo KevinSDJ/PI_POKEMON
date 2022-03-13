@@ -13,6 +13,7 @@ import {
 
 
 const initState={
+    searchs:[],
     types:[],
     pokemonsInUse:[],
     pokeDetails:{},

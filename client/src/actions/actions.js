@@ -11,7 +11,8 @@ export const SET_USER="SET_USER";
 export const CLEAR_USER="CLEAR_USER";
 export const FILT_DEF="FILT_DEF";
 export const ORD_TYPE_PRESENT="ORD_TYPE_PRESENT";
-export const GET_TYPES="GET_TYPES"
+export const GET_TYPES="GET_TYPES";
+export const SET_SEARCH="set_search";
 const axios = require("axios");
 
 
@@ -68,7 +69,7 @@ export function getAlltypes(){
         axios.get('http://localhost:3001/home/types')
         .then(r=>{
             let resp=[]
-            r.data.slice(0,18).map(e=>resp.push({id:e.id,name:e.name,icon:require(`../assets/iconsTypes/${e.name}.png`).default}))
+            r.data.map(e=>e.name!=="shadow"&&resp.push({id:e.id,name:e.name,icon:require(`../assets/iconsTypes/${e.name}.png`).default}))
             return dispatch({type:GET_TYPES,payload:resp})
         })
     }

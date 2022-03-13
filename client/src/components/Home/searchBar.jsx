@@ -29,7 +29,6 @@ let Inp= styled.input`
 
 export default function Search(){
     const [state,setState]=useState({search:""});
-    const [resp,setResp]=useState("");
    
     function onChange(e){
         setState(prev=>{
@@ -39,19 +38,23 @@ export default function Search(){
     }
     function onSub(e){
         e.preventDefault();
-        console.log(state)
-            if(state.search){
-               axios.get(`http://localhost:3001/home/pokemons?name=${state.name}`)
-                .then(res=> setResp(res.data))
-                console.log(resp)
-                setTimeout(()=>{setState({search:""});document.getElementById("search").value=""},(2000))
-            }
+        if(state.search){
+            axios.get(`http://localhost:3001/home/pokemons?name=${state.name}`)
+            .then(res=>{
+                setState({search:""})
+            })
+            .catch(e=>{
+                alert(e)
+            })
+        }else{
+            alert("search field empty")
+        }
         
     }
    
     return (
         <FormSearch onSubmit={onSub} autoComplete="off">
-         <Inp id="search" type="search" name="search" placeholder="search" required onChange={onChange} onKeyPress={(e)=>{
+         <Inp id="search" type="search" name="search" placeholder="search"   required onChange={onChange} onKeyPress={(e)=>{
              if(e.key==="Enter"){
                  return document.getElementById("submit").click()
              }

@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    health:{
+    hp:{
       type: DataTypes.INTEGER,
       allowNull:false
     },
@@ -30,7 +30,15 @@ module.exports = (sequelize) => {
       allowNull:false
     }
     ,
-    strength:{
+    attack:{
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    special_attack:{
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    special_defense:{
       type:DataTypes.INTEGER,
       allowNull:false
     },

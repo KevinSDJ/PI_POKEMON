@@ -8,16 +8,18 @@ let hpokemongif = require('../../../assets/HuevoPokemon.gif')
 export default function CreatePage() {
     const [data, setData] = useState({
         name: "",
-        health: 0,
+        hp: 0,
         defense: 0,
-        strength: 0,
+        attack: 0,
+        special_attack:0,
+        special_defense:0,
         speed: 0,
         height: 0,
         weight: 0,
         sprites: "",
         types: []
     })
-    
+    let  typs= useSelector(state=> state.types)
     const [types, setTypes] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [resp,setResp]=useState(null)
@@ -26,14 +28,8 @@ export default function CreatePage() {
 
     useEffect(() => {
         if(types===null){
-            axios.get('http://localhost:3001/home/types')
-            .then(r => {
-                r.data = r.data.slice(0, 18).map(e => {
-                    return { id: e.id, name: e.name, icon: require(`../../../assets/iconsTypes/${e.name}.png`) }
-                })
-                setTypes(r.data)
-                
-            })
+            let t=typs.map(e => {return { id: e.id, name: e.name, icon: require(`../../../assets/iconsTypes/${e.name}.png`)}});
+            setTypes(t)
         }
         if(isLoading){
             setTimeout(() => {
@@ -42,12 +38,11 @@ export default function CreatePage() {
         }
         
         
-    },[setTypes,types,isLoading])
+    },[setTypes, types, isLoading, typs])
 
     const checkData = (e) => {
         setData((prev) => {
-            let d = { ...prev, [e.target.name]: !Number(e.target.value)?e.target.value:Number(e.target.value)}
-            return d
+            return { ...prev, [e.target.name]: !Number(e.target.value)?e.target.value:Number(e.target.value)}
         })
     }
     const handleClick = (e) => {
@@ -57,27 +52,24 @@ export default function CreatePage() {
         }
         if(data.types&& data.types.includes(Number(e.target.id))){
             setData((prev)=>{
-                let r = { ...prev, [e.target.name]:data.types.filter(i=>i!==Number(e.target.id)) }
-                return r
+                return { ...prev, [e.target.name]:data.types.filter(i=>i!==Number(e.target.id)) }
+               
             })
         }else{
             setData((prev) => {
-            let r = { ...prev, [e.target.name]: [...data.types,Number(e.target.id)] }
-                return r
+             return { ...prev, [e.target.name]: [...data.types,Number(e.target.id)] }
+            
         })
         }
 
            
         } 
 
-        let axiosConfig = {
-            withCredentials: true,
-          }
     
     const onSub =(e) => {
         e.preventDefault()
         console.log({ data })
-        axios.post('http://localhost:3001/home/pokemons',data,axiosConfig)
+        axios.post('http://localhost:3001/home/pokemons',data,{withCredentials:true})
         .then(r=>{
             setResp(r.data)
             dispatch(getAllPokemon())
@@ -88,9 +80,11 @@ export default function CreatePage() {
             dispatch(reCharge())
             setData({
             name: "",
-            health: 0,
+            hp: 0,
             defense: 0,
-            strength: 0,
+            attack: 0,
+            special_attack:0,
+            special_defense:0,
             speed: 0,
             height: 0,
             weight: 0,

@@ -38,20 +38,28 @@ export const FormNwPoke = (props) => {
                     <input id="weight" name="weight" type="range" min={1} max={1000} defaultValue={props.data.weight} onChange={props.checkData} required /><span>{props.data.weight}</span>
                 </p>
                 <p>
-                    <label htmlFor="health">Health</label>
-                    <input id="health" name="health" type="range" min={1} max={1000} defaultValue={props.data.health} onChange={props.checkData} required /><span>{props.data.health}</span>
+                    <label htmlFor="hp">Hp</label>
+                    <input id="hp" name="hp" type="range" min={1} max={1000} defaultValue={props.data.hp} onChange={props.checkData} required /><span>{props.data.hp}</span>
                 </p>
                 <p>
                     <label htmlFor="defense">Defense</label>
                     <input id="defense" name="defense" type="range" min={0} max={1000} defaultValue={props.data.defense} onChange={props.checkData} required /><span>{props.data.defense}</span>
                 </p>
                 <p>
-                    <label htmlFor="strength">Strength</label>
-                    <input id="strength" name="strength" type="range" min={0} max={1000} defaultValue={props.data.strength} onChange={props.checkData} required /><span>{props.data.strength}</span>
+                    <label htmlFor="attack">Attack</label>
+                    <input id="attack" name="attack" type="range" min={0} max={1000} defaultValue={props.data.attack} onChange={props.checkData} required /><span>{props.data.attack}</span>
+                </p>
+                <p>
+                    <label htmlFor="special_attack">Special_attack</label>
+                    <input id="special_attack" name="special_attack" type="range" min={0} max={1000} defaultValue={props.data.special_attack} onChange={props.checkData} required /><span>{props.data.special_attack}</span>
+                </p>
+                <p>
+                    <label htmlFor="special_defense">Special_defense</label>
+                    <input id="special_defense" name="special_defense" type="range" min={0} max={1000} defaultValue={props.data.special_defense} onChange={props.checkData} required/><span>{props.data.special_defense}</span>
                 </p>
                 <p>
                     <label htmlFor="speed">Speed</label>
-                    <input id="speed" name="speed" type="range" min={0} max={1000} defaultValue={props.data.speed} onChange={props.checkData} required /><span>{props.data.speed}</span>
+                    <input id="speed" name="speed" type="range" min={1} max={1000} defaultValue={props.data.speed} onChange={props.checkData} required /><span>{props.data.speed}</span>
                 </p>
                 <p>
                     <label htmlFor="sprite">Image</label>

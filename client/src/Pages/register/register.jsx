@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import logo from '../../assets/Pokeball.png';
@@ -18,15 +18,6 @@ export default function Register(){
   })
   const [response,setResp]= useState({type:null,body:null})
    
-  useEffect(()=>{
-    axios.get('http://localhost:3001/register')
-    .then(r=>{
-      const {type,body}= r.data
-      if(type&&body){
-        setResp({type:r.data.type,body:r.data.body})
-      }
-    })
-  },[])
 
 
   function onChange(e){
@@ -38,8 +29,10 @@ export default function Register(){
   function onSub(e){
     e.preventDefault()
     axios.post('http://localhost:3001/register',status)
-      .then(resp=> setResp({type:resp.data.type,body:resp.data.body}))
-    setTimeout(()=>{setState({username:"",email:"",password:""})},(3000))
+      .then(resp=>{
+        setState({username:"",email:"",password:"",image:""})
+        setResp({type:resp.data.type,body:resp.data.body})
+      })
   }
   
   if(response?.type==="ok"){
